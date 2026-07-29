@@ -207,12 +207,22 @@ class CameraPipeline(QObject):
 
     @staticmethod
     def _h264_encoder() -> str:
-        """Pick an available H.264 encoder. x264enc (host / gst-plugins-ugly) is
-        preferred; avenc_h264 (ffmpeg) is the Flatpak-friendly fallback."""
-        if Gst.ElementFactory.find("x264enc") is not None:
-            return "x264enc tune=zerolatency speed-preset=veryfast"
-        if Gst.ElementFactory.find("avenc_h264") is not None:
-            return "avenc_h264"
+        """Pick an available H.264 encoder, most-preferred first.
+
+        - x264enc: best quality; present on the host (gst-plugins-ugly).
+        - openh264enc: reliable software encoder; what the Flatpak/KDE runtime provides
+          (gst-libav deliberately omits avenc_h264, so we don't rely on it).
+        - vah264enc: VA-API hardware encode; only if the element exists.
+        - avenc_h264: last-resort fallback.
+        """
+        for name, launch in (
+            ("x264enc", "x264enc tune=zerolatency speed-preset=veryfast"),
+            ("openh264enc", "openh264enc"),
+            ("vah264enc", "vah264enc"),
+            ("avenc_h264", "avenc_h264"),
+        ):
+            if Gst.ElementFactory.find(name) is not None:
+                return launch
         return "x264enc tune=zerolatency speed-preset=veryfast"  # let it error clearly
 
     def _push_record_frame(self, packed: bytes, w: int, h: int) -> None:
