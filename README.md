@@ -7,6 +7,13 @@ to the window underneath — ideal for screen recording and streaming.
 
 ![PeekCam floating over the desktop](assets/screenshot.png)
 
+Drag it to any corner and shape it — rectangle, rounded, or circle:
+
+<p>
+  <img src="assets/shape-circle.png" width="49%" alt="Circle overlay in the bottom-left corner">
+  <img src="assets/shape-rect.png" width="49%" alt="Rectangular overlay in the top-right corner">
+</p>
+
 ## Why it runs under XWayland
 
 GNOME's Wayland compositor (Mutter) doesn't let normal apps pin themselves always-on-top
