@@ -3,9 +3,11 @@
 This bundles PyQt6 (via the PyQt BaseApp), the MediaPipe blur stack, and the
 segmentation model. It targets the **KDE 6.8 runtime**.
 
-> Status: scaffold. The manifest and metadata are complete, but a blur-bundled Flatpak
-> needs a real `flatpak-builder` loop to finalize (the Python-deps step in particular).
-> Expect to iterate on the first build; paste any errors and we'll fix them.
+> Status: **builds, installs, and runs.** Verified on Zorin OS 18: the sandboxed app
+> launches always-on-top, the camera works (`v4l2src` + `/dev/video*` via `--device=all`),
+> snapshots save to ~/Pictures, and **background blur works** (the MediaPipe subprocess
+> runs inside the sandbox using the bundled model). Two known gaps remain — see
+> "Known limitations" below.
 
 ## Prerequisites
 
@@ -25,9 +27,10 @@ python3 -m pip install --user requirements-parser   # or use the blur .venv's py
 ./flatpak/gen-python-deps.sh
 ```
 
-This runs `flatpak-pip-generator` **inside `org.kde.Sdk//6.8`** so pip picks the correct
-prebuilt manylinux wheels for the runtime's Python (rather than source tarballs), and
-writes `flatpak/python3-modules.json`.
+This resolves a **binary-only** wheel tree (via pip's install report) and writes
+`flatpak/python3-modules.json` — all wheels, installed offline at build time. Run it on a
+host whose Python major.minor and glibc match the runtime (freedesktop 24.08 / KDE 6.8 =
+Python 3.12), so the selected wheels are compatible.
 
 ## 2. Build & install
 
@@ -54,14 +57,19 @@ flatpak run io.github.sebszwolin777.PeekCam --snapshot
 - `--filesystem=xdg-pictures:create`, `xdg-videos:create` — snapshots / recordings.
 - tray + notifications talk-names.
 
-## Known things to verify on first build
+## Known limitations (to fix before Flathub)
 
-- **H.264 recording**: relies on `avenc_h264` from the ffmpeg-full extension being
-  available to GStreamer in the KDE runtime. If recording fails, check
-  `gst-inspect-1.0 avenc_h264` inside the sandbox; overlay/snapshot/blur don't depend on it.
-- **Version alignment**: `runtime-version`, `base-version`, `gen-python-deps.sh`
-  `RUNTIME_VERSION`, and the ffmpeg-full `version` must stay mutually consistent (KDE 6.8
-  is built on freedesktop 24.08). Change them together if you retarget.
+- **Recording (H.264) doesn't work yet.** Neither `x264enc` nor `avenc_h264` is available
+  in the KDE 6.8 runtime — the ffmpeg-full extension ships the ffmpeg libs but the GStreamer
+  `gst-libav` plugin that exposes `avenc_h264` isn't present. Overlay, snapshot, and blur
+  all work; only recording is affected. Fix options: bundle `gst-libav`, or use
+  `openh264enc` (openh264 extension) / VAAPI hardware encode.
+- **CLI actions across `flatpak run` are unreliable.** `flatpak run … --toggle-blur` starts
+  a separate sandbox instance whose local socket doesn't reach the running app, so the
+  single-instance IPC (used for GNOME custom-shortcut hotkeys) doesn't forward. A D-Bus
+  single-instance/activation mechanism is the proper fix inside Flatpak.
+- **KDE 6.8 is end-of-life** — bump `runtime-version`/`base-version` to 6.9 (and
+  ffmpeg-full to 25.08) for a Flathub submission.
 - **Reproducible release**: the app source uses `branch: main`; pin it to a tagged commit
   (`tag:` + `commit:`) for a release/Flathub build.
 

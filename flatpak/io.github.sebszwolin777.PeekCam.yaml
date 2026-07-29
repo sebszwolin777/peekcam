@@ -60,7 +60,7 @@ modules:
   - name: peekcam
     buildsystem: simple
     build-commands:
-      - pip3 install --no-deps --prefix=${FLATPAK_DEST} .
+      - pip3 install --no-deps --no-build-isolation --prefix=${FLATPAK_DEST} .
       - install -Dm644 assets/peekcam.png ${FLATPAK_DEST}/share/peekcam/assets/peekcam.png
       - install -Dm644 selfie_segmenter.tflite ${FLATPAK_DEST}/share/peekcam/models/selfie_segmenter.tflite
       - install -Dm644 assets/peekcam-48.png  ${FLATPAK_DEST}/share/icons/hicolor/48x48/apps/${FLATPAK_ID}.png
