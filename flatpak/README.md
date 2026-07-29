@@ -1,7 +1,7 @@
 # Building the PeekCam Flatpak (with background blur)
 
 This bundles PyQt6 (via the PyQt BaseApp), the MediaPipe blur stack, and the
-segmentation model. It targets the **KDE 6.8 runtime**.
+segmentation model. It targets the **KDE 6.9 runtime** (freedesktop 25.08 / Python 3.13).
 
 > Status: **builds, installs, and fully runs.** Verified on Zorin OS 18: always-on-top
 > overlay, camera, snapshot, recording, background blur, and CLI actions all work in the
@@ -12,11 +12,10 @@ segmentation model. It targets the **KDE 6.8 runtime**.
 ```bash
 sudo apt install flatpak-builder
 flatpak install flathub \
-    org.kde.Platform//6.8 org.kde.Sdk//6.8 \
-    com.riverbankcomputing.PyQt.BaseApp//6.8 \
-    org.freedesktop.Platform.ffmpeg-full//24.08
-# gen-python-deps.sh needs the 'requirements-parser' python module:
-python3 -m pip install --user requirements-parser   # or use the blur .venv's python
+    org.kde.Platform//6.9 org.kde.Sdk//6.9 \
+    com.riverbankcomputing.PyQt.BaseApp//6.9 \
+    org.freedesktop.Platform.ffmpeg-full//25.08
+# gen-python-deps.sh needs a python3 with pip >= 22.2 (system python3 or the blur .venv).
 ```
 
 ## 1. Generate the Python dependency list (once)
@@ -26,9 +25,9 @@ python3 -m pip install --user requirements-parser   # or use the blur .venv's py
 ```
 
 This resolves a **binary-only** wheel tree (via pip's install report) and writes
-`flatpak/python3-modules.json` — all wheels, installed offline at build time. Run it on a
-host whose Python major.minor and glibc match the runtime (freedesktop 24.08 / KDE 6.8 =
-Python 3.12), so the selected wheels are compatible.
+`flatpak/python3-modules.json` — all wheels, installed offline at build time. It resolves
+wheels cross-version for the runtime's Python via `TARGET_PYVER` (default `313` for KDE 6.9
+/ freedesktop 25.08 = Python 3.13), so the host's own Python need not match.
 
 ## 2. Build & install
 
@@ -63,17 +62,10 @@ x264enc → openh264enc → vah264enc), **background blur** (MediaPipe subproces
 **CLI actions** (`flatpak run … --snapshot` / `--toggle-blur` reach the running instance —
 Flatpak shares the per-app runtime dir, so the single-instance socket works for hotkeys).
 
-## Before a Flathub submission
-
-- **Bump off KDE 6.8** (end-of-life) to 6.9, and `ffmpeg-full` to 25.08. Re-run
-  `gen-python-deps.sh` on a matching-Python host if the runtime's Python changes.
-- **Pin the app source** to a tagged commit (`tag:` + `commit:`) instead of `branch: main`
-  for a reproducible build.
-- Validate the metainfo and ensure the screenshots resolve.
-
 ## Toward Flathub
 
-Once it builds and runs locally: validate the metainfo (`flatpak run
-org.freedesktop.appstream-glib validate flatpak/*.metainfo.xml`), pin the app source to a
-tagged commit, and submit the manifest to the flathub/flathub repo. The app-id
-`io.github.sebszwolin777.PeekCam` already follows the GitHub-hosted naming scheme.
+- The in-repo manifest builds from `branch: main` for local dev. For the flathub/flathub
+  submission, copy it and **pin the app source** to a tagged commit (`tag:` + `commit:`).
+- Validate the metainfo before submitting:
+  `flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest flatpak/io.github.sebszwolin777.PeekCam.yaml`
+- The app-id `io.github.sebszwolin777.PeekCam` already follows the GitHub-hosted naming scheme.

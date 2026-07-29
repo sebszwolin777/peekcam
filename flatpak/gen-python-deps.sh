@@ -6,16 +6,21 @@
 # tarballs, which would try to build OpenCV from source in the sandbox. Instead we resolve
 # a binary-only wheel tree with pip's install report and emit those URLs + hashes.
 #
-# Requirements: python3 with pip >= 22.2 (for --report). The resolving host should have
-# the same CPython major.minor and a compatible glibc as the target runtime
-# (freedesktop 24.08 / KDE 6.8 -> Python 3.12, glibc 2.39) so the chosen wheels match.
+# Requirements: python3 with pip >= 22.2 (for --report). Resolves wheels cross-version for
+# the target runtime's Python (TARGET_PYVER), so the host's own Python need not match.
+# KDE 6.9 / freedesktop 25.08 -> Python 3.13; KDE 6.8 / 24.08 -> 3.12.
 set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PYTHON="${PYTHON:-python3}"
+TARGET_PYVER="${TARGET_PYVER:-313}"      # cp tag of the runtime Python, e.g. 313 or 312
 REPORT="$(mktemp)"
 
-echo "==> Resolving binary-only wheel tree…"
+echo "==> Resolving binary-only wheel tree for cp${TARGET_PYVER}…"
 "$PYTHON" -m pip install --dry-run --ignore-installed --only-binary=:all: \
+    --python-version "$TARGET_PYVER" --implementation cp \
+    --abi "cp${TARGET_PYVER}" --abi abi3 --abi none \
+    --platform manylinux_2_28_x86_64 --platform manylinux_2_17_x86_64 \
+    --platform manylinux2014_x86_64 \
     --report "$REPORT" -r "$DIR/requirements-ml.txt"
 
 echo "==> Writing python3-modules.json…"

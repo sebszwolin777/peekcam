@@ -2,22 +2,22 @@
 #
 # Build:
 #   ./flatpak/gen-python-deps.sh        # once — writes flatpak/python3-modules.json
-#   flatpak install flathub org.kde.Sdk//6.8 org.kde.Platform//6.8 \
-#       com.riverbankcomputing.PyQt.BaseApp//6.8 \
-#       org.freedesktop.Platform.ffmpeg-full//24.08
+#   flatpak install flathub org.kde.Sdk//6.9 org.kde.Platform//6.9 \
+#       com.riverbankcomputing.PyQt.BaseApp//6.9 \
+#       org.freedesktop.Platform.ffmpeg-full//25.08
 #   flatpak-builder --user --install --force-clean build-dir \
 #       flatpak/io.github.sebszwolin777.PeekCam.yaml
 #   flatpak run io.github.sebszwolin777.PeekCam
 #
-# NOTE: runtime-version (6.8) must match base-version and the RUNTIME_VERSION used by
-# gen-python-deps.sh, and the ffmpeg-full 'version' must match that KDE runtime's
-# freedesktop base (KDE 6.8 -> freedesktop 24.08). Adjust together if you retarget.
+# NOTE: runtime-version (6.9) must match base-version; the ffmpeg-full 'version' must match
+# that KDE runtime's freedesktop base (KDE 6.9 -> freedesktop 25.08 -> Python 3.13); and
+# gen-python-deps.sh TARGET_PYVER (313) must match that Python. Adjust together if retargeting.
 app-id: io.github.sebszwolin777.PeekCam
 runtime: org.kde.Platform
-runtime-version: '6.8'
+runtime-version: '6.9'
 sdk: org.kde.Sdk
 base: com.riverbankcomputing.PyQt.BaseApp
-base-version: '6.8'
+base-version: '6.9'
 command: peekcam
 
 finish-args:
@@ -41,7 +41,7 @@ add-extensions:
   org.freedesktop.Platform.ffmpeg-full:
     directory: lib/ffmpeg
     add-ld-path: .
-    version: '24.08'
+    version: '25.08'
     autodelete: false
 
 cleanup:
