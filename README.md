@@ -5,6 +5,8 @@ corner of the screen, drag/resize it anywhere, shape it (rectangle / rounded / c
 tune every camera setting the device exposes, snapshot, record, and pass clicks through
 to the window underneath — ideal for screen recording and streaming.
 
+![PeekCam floating over the desktop](assets/screenshot.png)
+
 ## Why it runs under XWayland
 
 GNOME's Wayland compositor (Mutter) doesn't let normal apps pin themselves always-on-top
