@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "peekcam"
+version = "0.1.0"
+description = "A movable, always-on-top webcam overlay for Linux (Wayland via XWayland)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "GPL-3.0-or-later" }
+authors = [{ name = "Sebastian Zwolinski", email = "szwolinski@startmail.com" }]
+keywords = ["webcam", "camera", "overlay", "streaming", "wayland"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Video :: Capture",
+]
+# PyQt6 is the only pip-installed runtime dep. PyGObject (`gi`) + GStreamer, and
+# v4l-utils, come from the system (see README / install.sh) because they need the
+# platform's GObject-introspection typelibs and GStreamer plugins.
+dependencies = ["PyQt6>=6.4"]
+
+[project.optional-dependencies]
+# Background blur. In practice this is installed into a venv by setup_blur.sh so it can
+# see the system PyQt6/gi via --system-site-packages; listed here for completeness.
+blur = ["mediapipe>=0.10", "opencv-python", "numpy"]
+
+[project.urls]
+Homepage = "https://github.com/sebszwolin777/peekcam"
+Source = "https://github.com/sebszwolin777/peekcam"
+
+[project.scripts]
+peekcam = "peekcam.main:main"
+
+[tool.setuptools]
+packages = ["peekcam"]
