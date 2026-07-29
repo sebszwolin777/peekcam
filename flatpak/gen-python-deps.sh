@@ -8,11 +8,11 @@
 #
 # Requirements: python3 with pip >= 22.2 (for --report). Resolves wheels cross-version for
 # the target runtime's Python (TARGET_PYVER), so the host's own Python need not match.
-# KDE 6.9 / freedesktop 25.08 -> Python 3.13; KDE 6.8 / 24.08 -> 3.12.
+# KDE 6.9 / 6.8 -> freedesktop 24.08 -> Python 3.12.
 set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PYTHON="${PYTHON:-python3}"
-TARGET_PYVER="${TARGET_PYVER:-313}"      # cp tag of the runtime Python, e.g. 313 or 312
+TARGET_PYVER="${TARGET_PYVER:-312}"      # cp tag of the runtime Python, e.g. 313 or 312
 REPORT="$(mktemp)"
 
 echo "==> Resolving binary-only wheel tree for cp${TARGET_PYVER}…"

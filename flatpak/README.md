@@ -1,7 +1,7 @@
 # Building the PeekCam Flatpak (with background blur)
 
 This bundles PyQt6 (via the PyQt BaseApp), the MediaPipe blur stack, and the
-segmentation model. It targets the **KDE 6.9 runtime** (freedesktop 25.08 / Python 3.13).
+segmentation model. It targets the **KDE 6.9 runtime** (Python 3.12).
 
 > Status: **builds, installs, and fully runs.** Verified on Zorin OS 18: always-on-top
 > overlay, camera, snapshot, recording, background blur, and CLI actions all work in the
@@ -25,8 +25,8 @@ flatpak install flathub \
 
 This resolves a **binary-only** wheel tree (via pip's install report) and writes
 `flatpak/python3-modules.json` — all wheels, installed offline at build time. It resolves
-wheels cross-version for the runtime's Python via `TARGET_PYVER` (default `313` for KDE 6.9
-/ freedesktop 25.08 = Python 3.13), so the host's own Python need not match.
+wheels cross-version for the runtime's Python via `TARGET_PYVER` (default `312`; KDE 6.9 =
+Python 3.12), so the host's own Python need not match.
 
 ## 2. Build & install
 

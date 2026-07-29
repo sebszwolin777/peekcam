@@ -9,7 +9,7 @@
 #   flatpak run io.github.sebszwolin777.PeekCam
 #
 # NOTE: runtime-version (6.9) must match base-version, and gen-python-deps.sh TARGET_PYVER
-# (313) must match the runtime's Python (KDE 6.9 -> freedesktop 25.08 -> Python 3.13).
+# (312) must match the runtime Python (KDE 6.9 -> freedesktop 24.08 -> Python 3.12).
 app-id: io.github.sebszwolin777.PeekCam
 runtime: org.kde.Platform
 runtime-version: '6.9'
