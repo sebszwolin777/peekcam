@@ -17,7 +17,10 @@ command: peekcam
 
 finish-args:
   # Always-on-top / free positioning / click-through need an X11 client (XWayland).
+  # We force the xcb platform below; --socket=wayland is required by Flathub alongside
+  # fallback-x11 (it's granted but unused since the app runs on XWayland).
   - --socket=fallback-x11
+  - --socket=wayland
   - --env=QT_QPA_PLATFORM=xcb
   - --share=ipc
   # Cameras (/dev/video*) + GPU (/dev/dri). We use v4l2src and v4l2-ctl directly, which
