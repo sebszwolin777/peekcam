@@ -11,6 +11,13 @@ dist/
 # Segmentation model (downloaded by setup_blur.sh; verify its license before bundling)
 models/*.tflite
 
+# Flatpak build artifacts (python3-modules.json is generated per-runtime)
+build-dir/
+.flatpak-builder/
+flatpak/flatpak-pip-generator.py
+flatpak/python3-modules.json
+*.flatpak
+
 # Editor / OS
 *.swp
 *~

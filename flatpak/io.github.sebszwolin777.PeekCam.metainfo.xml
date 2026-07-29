@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.sebszwolin777.PeekCam</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>PeekCam</name>
+  <summary>Movable always-on-top webcam overlay</summary>
+
+  <description>
+    <p>
+      PeekCam floats your webcam in a corner of the screen, always on top, so it stays
+      visible over any window — ideal for screen recording and streaming.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Drag anywhere and resize; rectangle, rounded, or circle shapes</li>
+      <li>Adjustable opacity, mirror, and click-through (mouse passes through)</li>
+      <li>Every camera control the device exposes (brightness, exposure, focus, …)</li>
+      <li>Source and resolution/frame-rate switching</li>
+      <li>Snapshot and recording</li>
+      <li>Optional background blur (keeps you sharp, blurs the background)</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">io.github.sebszwolin777.PeekCam.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>PeekCam floating over the desktop</caption>
+      <image>https://raw.githubusercontent.com/sebszwolin777/peekcam/main/assets/screenshot.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Circle shape in the bottom-left corner</caption>
+      <image>https://raw.githubusercontent.com/sebszwolin777/peekcam/main/assets/shape-circle.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Rectangular overlay in the top-right corner</caption>
+      <image>https://raw.githubusercontent.com/sebszwolin777/peekcam/main/assets/shape-rect.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://github.com/sebszwolin777/peekcam</url>
+  <url type="bugtracker">https://github.com/sebszwolin777/peekcam/issues</url>
+
+  <developer id="io.github.sebszwolin777">
+    <name>Sebastian Zwolinski</name>
+  </developer>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.1.0" date="2026-07-28">
+      <description>
+        <p>First release.</p>
+      </description>
+    </release>
+  </releases>
+</component>
