@@ -13,8 +13,7 @@ segmentation model. It targets the **KDE 6.9 runtime** (freedesktop 25.08 / Pyth
 sudo apt install flatpak-builder
 flatpak install flathub \
     org.kde.Platform//6.9 org.kde.Sdk//6.9 \
-    com.riverbankcomputing.PyQt.BaseApp//6.9 \
-    org.freedesktop.Platform.ffmpeg-full//25.08
+    com.riverbankcomputing.PyQt.BaseApp//6.9
 # gen-python-deps.sh needs a python3 with pip >= 22.2 (system python3 or the blur .venv).
 ```
 

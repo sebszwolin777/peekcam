@@ -3,15 +3,13 @@
 # Build:
 #   ./flatpak/gen-python-deps.sh        # once — writes flatpak/python3-modules.json
 #   flatpak install flathub org.kde.Sdk//6.9 org.kde.Platform//6.9 \
-#       com.riverbankcomputing.PyQt.BaseApp//6.9 \
-#       org.freedesktop.Platform.ffmpeg-full//25.08
+#       com.riverbankcomputing.PyQt.BaseApp//6.9
 #   flatpak-builder --user --install --force-clean build-dir \
 #       flatpak/io.github.sebszwolin777.PeekCam.yaml
 #   flatpak run io.github.sebszwolin777.PeekCam
 #
-# NOTE: runtime-version (6.9) must match base-version; the ffmpeg-full 'version' must match
-# that KDE runtime's freedesktop base (KDE 6.9 -> freedesktop 25.08 -> Python 3.13); and
-# gen-python-deps.sh TARGET_PYVER (313) must match that Python. Adjust together if retargeting.
+# NOTE: runtime-version (6.9) must match base-version, and gen-python-deps.sh TARGET_PYVER
+# (313) must match the runtime's Python (KDE 6.9 -> freedesktop 25.08 -> Python 3.13).
 app-id: io.github.sebszwolin777.PeekCam
 runtime: org.kde.Platform
 runtime-version: '6.9'
@@ -35,14 +33,8 @@ finish-args:
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=org.freedesktop.Notifications
 
-# H.264 encoder for recording (gst-libav / avenc_h264). Must match the KDE runtime's
-# freedesktop base version.
-add-extensions:
-  org.freedesktop.Platform.ffmpeg-full:
-    directory: lib/ffmpeg
-    add-ld-path: .
-    version: '25.08'
-    autodelete: false
+# Recording uses openh264enc (from the runtime's auto-pulled openh264 extension), so no
+# ffmpeg-full extension is needed. gst-libav deliberately omits avenc_h264 anyway.
 
 cleanup:
   - '*.a'
@@ -69,7 +61,6 @@ modules:
       - install -Dm644 assets/peekcam-256.png ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps/${FLATPAK_ID}.png
       - install -Dm644 flatpak/${FLATPAK_ID}.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 flatpak/${FLATPAK_ID}.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
-      - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
     sources:
       - type: git
         url: https://github.com/sebszwolin777/peekcam.git
