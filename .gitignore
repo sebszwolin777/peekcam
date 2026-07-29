@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Blur ML stack venv (created by setup_blur.sh — not committed)
+.venv/
+
+# Segmentation model (downloaded by setup_blur.sh; verify its license before bundling)
+models/*.tflite
+
+# Editor / OS
+*.swp
+*~
+.DS_Store

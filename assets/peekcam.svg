@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="pip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- app tile -->
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#tile)"/>
+
+  <!-- the "screen": a rounded window outline -->
+  <rect x="52" y="66" width="152" height="112" rx="18"
+        fill="none" stroke="#ffffff" stroke-width="12" opacity="0.9"/>
+
+  <!-- the overlay: a picture-in-picture camera bubble in the corner -->
+  <rect x="132" y="120" width="80" height="66" rx="16" fill="url(#pip)"
+        stroke="#ffffff" stroke-width="8"/>
+  <!-- camera lens inside the overlay -->
+  <circle cx="172" cy="153" r="19" fill="#0b1020" opacity="0.85"/>
+  <circle cx="172" cy="153" r="10" fill="#ffffff" opacity="0.95"/>
+  <circle cx="166" cy="147" r="4" fill="#ffffff"/>
+</svg>

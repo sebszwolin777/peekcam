@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=PeekCam
+Comment=Movable always-on-top webcam overlay
+Exec=peekcam
+Icon=peekcam
+Terminal=false
+Categories=AudioVideo;
+Keywords=webcam;camera;overlay;streaming;
+StartupWMClass=peekcam
+StartupNotify=false
