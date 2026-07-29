@@ -187,7 +187,7 @@ class CameraPipeline(QObject):
         desc = (
             f"appsrc name=src is-live=true do-timestamp=true format=time block=false "
             f"max-bytes=0 ! {caps_str} ! queue max-size-buffers=8 leaky=downstream ! "
-            f"videoconvert ! x264enc tune=zerolatency speed-preset=veryfast ! "
+            f"videoconvert ! {self._h264_encoder()} ! "
             f"h264parse ! mp4mux ! filesink name=fsink async=false"
         )
         try:
@@ -204,6 +204,16 @@ class CameraPipeline(QObject):
             self._rec_appsrc = appsrc
             self._recording = True
         self.recording_changed.emit(True)
+
+    @staticmethod
+    def _h264_encoder() -> str:
+        """Pick an available H.264 encoder. x264enc (host / gst-plugins-ugly) is
+        preferred; avenc_h264 (ffmpeg) is the Flatpak-friendly fallback."""
+        if Gst.ElementFactory.find("x264enc") is not None:
+            return "x264enc tune=zerolatency speed-preset=veryfast"
+        if Gst.ElementFactory.find("avenc_h264") is not None:
+            return "avenc_h264"
+        return "x264enc tune=zerolatency speed-preset=veryfast"  # let it error clearly
 
     def _push_record_frame(self, packed: bytes, w: int, h: int) -> None:
         with self._rec_lock:

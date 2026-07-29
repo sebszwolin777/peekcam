@@ -15,10 +15,9 @@ import os
 import subprocess
 import sys
 
-MODEL_PATH = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "models", "selfie_segmenter.tflite",
-)
+from . import data_dir
+
+MODEL_PATH = os.path.join(data_dir(), "models", "selfie_segmenter.tflite")
 
 MAX_BYTES = 3840 * 2160 * 3  # up to 4K RGB
 

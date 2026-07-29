@@ -18,14 +18,13 @@ from PyQt6.QtCore import QTimer  # noqa: E402
 from PyQt6.QtGui import QAction, QGuiApplication, QIcon  # noqa: E402
 from PyQt6.QtWidgets import QApplication, QMenu, QMessageBox, QSystemTrayIcon  # noqa: E402
 
-from . import APP_NAME, device_manager, ipc, recorder  # noqa: E402
+from . import APP_NAME, data_dir, device_manager, ipc, recorder  # noqa: E402
 from .config import Config  # noqa: E402
 from .overlay_window import OverlayWindow  # noqa: E402
 from .pipeline import CameraPipeline  # noqa: E402
 from .settings_dialog import SettingsDialog  # noqa: E402
 
-ICON_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                         "assets", "peekcam.png")
+ICON_PATH = os.path.join(data_dir(), "assets", "peekcam.png")
 
 
 def app_icon() -> QIcon:
