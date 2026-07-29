@@ -63,8 +63,24 @@ Flatpak shares the per-app runtime dir, so the single-instance socket works for 
 
 ## Toward Flathub
 
-- The in-repo manifest builds from `branch: main` for local dev. For the flathub/flathub
-  submission, copy it and **pin the app source** to a tagged commit (`tag:` + `commit:`).
-- Validate the metainfo before submitting:
-  `flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest flatpak/io.github.sebszwolin777.PeekCam.yaml`
-- The app-id `io.github.sebszwolin777.PeekCam` already follows the GitHub-hosted naming scheme.
+The in-repo manifest builds from `branch: main` for local dev. To submit to
+[flathub/flathub](https://github.com/flathub/flathub):
+
+1. Fork flathub/flathub, create a branch named `io.github.sebszwolin777.PeekCam`.
+2. Add the manifest with the app source **pinned** to the release (reproducible builds):
+   ```yaml
+   sources:
+     - type: git
+       url: https://github.com/sebszwolin777/peekcam.git
+       tag: v0.1.1
+       commit: 06872a6f48cfbd394483932a719b198f1c8eaeeb
+   ```
+3. Also commit `python3-modules.json` (the pinned wheel list — it carries the offline
+   sources Flathub's no-network build needs). Generate it with `./gen-python-deps.sh`.
+4. Lint before opening the PR:
+   `flatpak install flathub org.flatpak.Builder && \`
+   `flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest <manifest>`
+5. Open a PR. The app-id already follows the GitHub-hosted naming scheme.
+
+Note: KDE 6.9 is the current stable at time of writing; check it's still supported when you
+submit (Flathub rejects end-of-life runtimes).
