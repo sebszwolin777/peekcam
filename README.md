@@ -112,20 +112,37 @@ then assign a shortcut.
 | `peekcam/ipc.py` | single-instance socket + action forwarding |
 | `peekcam/config.py` | JSON persistence |
 
-## Development
+## Install & build
 
+PeekCam is distributed as source — install it one of two ways.
+
+**Run from source:**
 ```bash
 git clone https://github.com/sebszwolin777/peekcam
 cd peekcam
-./install.sh          # system deps + menu entry
+./install.sh          # system deps + application-menu entry
 ./setup_blur.sh       # optional: background-blur ML stack
 ./run.sh              # launch
 ```
+
+**Or build it as a self-contained Flatpak** (bundles PyQt6 + the blur stack + model):
+see [`flatpak/README.md`](flatpak/README.md). A ready-to-build manifest is in
+[`flathub-submission/`](flathub-submission/). Builds/runs on x86_64.
 
 ## Status
 
 Beta. Built and tested on Zorin OS 18 (Ubuntu 24.04) / GNOME Wayland. It should work on
 other GNOME/Wayland and X11 setups but hasn't been widely tested. Issues and PRs welcome.
+
+**Not on Flathub.** PeekCam isn't published on Flathub — the codebase was AI-generated
+(see [Provenance](#provenance)), which Flathub's policies don't permit, and it's a young
+project. Install it from source or as a local Flatpak using the steps above.
+
+## Provenance
+
+PeekCam was created with the help of an AI coding agent (Anthropic's Claude). The initial
+code, docs, and packaging were AI-generated. This is disclosed for transparency — please
+keep it in mind if you build on or redistribute the project.
 
 ## License
 
