@@ -24,7 +24,7 @@ depends=(
 )
 optdepends=(
   'gst-plugins-ugly: H.264 recording via x264enc'
-  'python-mediapipe: background blur'
+  'python-mediapipe-bin: background blur (prebuilt wheel; the source "python-mediapipe" AUR pkg fails to build)'
   'python-opencv: background blur'
   'python-numpy: background blur'
 )
