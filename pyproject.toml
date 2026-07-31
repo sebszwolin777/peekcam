@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "peekcam"
-version = "0.1.0"
+version = "0.1.1"
 description = "A movable, always-on-top webcam overlay for Linux (Wayland via XWayland)"
 readme = "README.md"
 requires-python = ">=3.10"
